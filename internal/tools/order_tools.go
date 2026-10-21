@@ -87,8 +87,9 @@ func registerOrderTools(add toolAdder) {
 			}
 			c, cancel := ctx()
 			defer cancel()
-			path := fmt.Sprintf("/order/202309/orders/%s", url.PathEscape(orderID))
-			data, _, err := client.Request(c, http.MethodGet, path, url.Values{}, nil)
+			q := url.Values{}
+			q.Set("ids", orderID)
+			data, _, err := client.Request(c, http.MethodGet, "/order/202309/orders", q, nil)
 			if err != nil {
 				return mcp.ToolResultError(err.Error())
 			}
